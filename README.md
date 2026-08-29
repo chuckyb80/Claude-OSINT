@@ -59,6 +59,9 @@ claude-osint/
 │   ├── continuous-exposure-monitoring/SKILL.md # re-scan/diff + CTI chatter (811 lines)
 │   ├── cloud-saas-exposure/SKILL.md          # cloud + supply-chain depth (802 lines)
 │   └── identity-provider-recon/SKILL.md      # tenant/federation + user-enum (968 lines)
+├── scripts/
+│   ├── sync-skill-content.sh                 # populate SKILL.md files after clone
+│   └── featherless_image.py                  # stdlib-only vision-model image captioner
 ├── docs/                                     # architecture · coverage · install · usage
 ├── examples/                                 # 4 end-to-end engagement walk-throughs
 ├── tests/smoke-test-prompts.md               # 56-prompt self-evaluation

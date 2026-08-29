@@ -9,6 +9,27 @@ and the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added — `scripts/featherless_image.py`
+
+Stdlib-only CLI that captions or transcribes images with a vision model on
+Featherless AI's OpenAI-compatible `/chat/completions` endpoint — screenshots,
+login-page captures, leaked photos and org-chart images collected during a
+passive engagement, without hand-reading each one. No `openai` / `requests`
+dependency; `urllib` only, in keeping with the other helper scripts.
+
+- Local files are inlined as base64 data URIs with the mime type **sniffed from
+  content** (PNG/JPEG/GIF/WEBP/BMP magic, `--mime` to force); URLs are passed
+  through untouched. Several images go in one message.
+- The API key comes from `FEATHERLESS_API_KEY` or `--api-key-file` and never
+  from a flag — an `--api-key` argument leaks into shell history and `ps`.
+- Hardened transport: HTTPS-enforced base URL (plaintext `http` warns), per-file
+  size ceiling checked before the read, per-request timeout, jittered
+  exponential backoff on 429/5xx/transport errors that honours `Retry-After`,
+  and no retry on 4xx that will not change.
+- `--dry-run` prints the exact request body with data URIs elided, `--json`
+  emits `{model, content, finish_reason, usage}`. Exit codes: 0 ok · 2 bad
+  arguments or input · 3 API/transport · 4 unexpected response shape.
+
 ### Added — six organization-grade depth skills
 
 Lifts the project from a 2-skill recon pair to an **8-skill** organization-grade attack-surface library. Each new skill is `version: 1.0`, passive/read-only, ships its own `README.md` + in-skill Self-Test, and is grounded in a production ASM implementation. They deepen (never duplicate) the core `osint-methodology` / `offensive-osint` pair.
